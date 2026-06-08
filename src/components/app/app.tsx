@@ -15,15 +15,15 @@ export const App = () => {
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': stylesState.fontFamilyOption,
-					'--font-size': stylesState.fontSizeOption,
-					'--font-color': stylesState.fontColor,
-					'--container-width': stylesState.contentWidth,
-					'--bg-color': stylesState.backgroundColor,
+					'--font-family': stylesState.fontFamilyOption.value,
+					'--font-size': stylesState.fontSizeOption.value,
+					'--font-color': stylesState.fontColor.value,
+					'--container-width': stylesState.contentWidth.value,
+					'--bg-color': stylesState.backgroundColor.value,
 				} as CSSProperties
 			}>
 			<ArticleParamsForm onSubmit={setStylesState} onCancel={setStylesState} />
-			<Article />
+			<Article style={stylesState} />
 		</main>
 	);
 };
