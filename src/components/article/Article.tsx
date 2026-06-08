@@ -3,12 +3,27 @@ import clsx from 'clsx';
 // Сообщаем вебпаку, что этот файл использует это изображение.
 import plane from 'src/images/plane.png';
 import { Text } from 'src/ui/text';
+import { defaultArticleState } from 'src/constants/articleProps';
+import { CSSProperties } from 'react';
 
 import styles from './Article.module.scss';
 
-export const Article = () => {
+type ArticeProps = {
+	style: typeof defaultArticleState;
+};
+export const Article = (style: ArticeProps) => {
 	return (
-		<article className={clsx(styles.article)}>
+		<article
+			className={clsx(styles.article)}
+			style={
+				{
+					'--font-family': style.style.fontFamilyOption.value,
+					'--font-size': style.style.fontSizeOption.value,
+					'--font-color': style.style.fontColor.value,
+					'--container-width': style.style.contentWidth.value,
+					'--bg-color': style.style.backgroundColor.value,
+				} as CSSProperties
+			}>
 			<Text as='h1' size={45} weight={800} uppercase dynamicLite>
 				Портрет Западной Швейцарии
 			</Text>

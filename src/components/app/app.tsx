@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from '../article/Article';
@@ -8,20 +8,22 @@ import { defaultArticleState } from './../../constants/articleProps';
 import styles from './app.module.scss';
 
 export const App = () => {
+	const [stylesState, setStylesState] = useState(defaultArticleState);
+
 	return (
 		<main
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
+					'--font-family': stylesState.fontFamilyOption.value,
+					'--font-size': stylesState.fontSizeOption.value,
+					'--font-color': stylesState.fontColor.value,
+					'--container-width': stylesState.contentWidth.value,
+					'--bg-color': stylesState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
-			<Article />
+			<ArticleParamsForm onSubmit={setStylesState} onCancel={setStylesState} />
+			<Article style={stylesState} />
 		</main>
 	);
 };
