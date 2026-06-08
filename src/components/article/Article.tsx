@@ -8,7 +8,16 @@ import styles from './Article.module.scss';
 
 export const Article = () => {
 	return (
-		<article className={clsx(styles.article)}>
+		<article
+			className={clsx(styles.article)}
+			/* style={{
+			fontFamily: styleParams.fontFamily.value,
+			fontSize: styleParams.fontSize.value,
+			color: styleParams.fontColor.value,
+			width: styleParams.contentWidth.value,
+			backgroundColor: styleParams.backgroundColor.value,
+		}}*/
+		>
 			<Text as='h1' size={45} weight={800} uppercase dynamicLite>
 				Портрет Западной Швейцарии
 			</Text>
