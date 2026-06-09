@@ -2,6 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { useState, useRef, FormEvent, useEffect } from 'react';
 import { Text } from 'src/ui/text';
+import { clsx } from 'clsx';
 import {
 	ArticleStateType,
 	OptionType,
@@ -24,22 +25,16 @@ type FormProps = {
 };
 
 export const ArticleParamsForm = ({ onSubmit, onCancel }: FormProps) => {
-	//currentStyles: StyleProps, onChange: (key: string, value: string)=>void) => {
-	const [state, setState] = useState(false); //состояние открытия/закрытия панели
+	const [isFormState, setIsFormState] = useState(false); //состояние открытия/закрытия панели
 
 	const formRef = useRef<HTMLElement>(null);
 
 	const openClose = () => {
-		setState(!state);
+		setIsFormState(!isFormState);
 	};
 
 	const [formState, setFormState] =
 		useState<ArticleStateType>(defaultArticleState);
-	/*const [fontFamilySelected, setFontFamily] = useState(defaultArticleState.fontFamily);
-	const [fontSizeSelected, setFontSize] = useState(currentStyles.fontSize);
-	const [fontColorSelected, setFontColor] = useState(currentStyles.fontColor);
-	const [backgroundColorSelected, setBackgroundColor] = useState(currentStyles.backgroundColor);
-	const [contentWidthSelected, setContentWidth] = useState(currentStyles.contentWidth);*/
 
 	const updateField = (field: keyof ArticleStateType) => {
 		return (value: OptionType) => {
@@ -53,7 +48,7 @@ export const ArticleParamsForm = ({ onSubmit, onCancel }: FormProps) => {
 	const submit = (e: FormEvent) => {
 		e.preventDefault();
 		onSubmit(formState);
-		setState(false);
+		setIsFormState(false);
 	};
 
 	const reset = (e: FormEvent) => {
@@ -63,40 +58,24 @@ export const ArticleParamsForm = ({ onSubmit, onCancel }: FormProps) => {
 	};
 
 	useEffect(() => {
-		if (!state) return;
+		if (!isFormState) return;
 		const clickOutside = (event: MouseEvent) => {
 			if (formRef.current && !formRef.current.contains(event.target as Node)) {
-				setState(false);
+				setIsFormState(false);
 			}
 		};
 		document.addEventListener('mousedown', clickOutside);
 		return () => {
 			document.removeEventListener('mousedown', clickOutside);
 		};
-	}, [state]);
-
-	/*const handleFontFamilyChange = (option: OptionType) => {
-		setFontFamily(option);
-		onChange({ ...currentStyles, fontFamily: option.value });
-	};
-	const handleFontSizeChange = (option: OptionType) => {
-		onChange('fontSize', option.value);
-	};
-	const handleFontColorChange = (option: OptionType) => {
-		onChange('fontColor', option.value);
-	};
-	const handleBackgroundColorChange = (option: OptionType) => {
-		onChange('backgroundColor', option.value);
-	};
-	const handleContentWidthChange = (option: OptionType) => {
-		onChange('contentWidth', option.value);
-	};*/
+	}, [isFormState]);
 
 	return (
 		<>
-			<ArrowButton isOpen={state} onClick={openClose} />
+			<ArrowButton isOpen={isFormState} onClick={openClose} />
 			<aside
-				className={`${styles.container} ${state ? styles.container_open : ''}`}>
+				className={clsx(styles.container, isFormState && styles.container_open)}
+				ref={formRef}>
 				<form className={styles.form} onSubmit={submit} onReset={reset}>
 					<Text as='h2'>Задайте параметры</Text>
 					<Select
